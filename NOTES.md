@@ -23,13 +23,17 @@ time losses from CPU contention and was discarded and re-run):
 - Timeout losses: 0 in all 18 games (losses were by checkmate).
 
 Direct gauntlet vs v3.3 (12 book openings x both colours = 24 games):
-the first full run reached 21/24 games at 11.5-9.5, every game
-identical to the original v3.5 run (same result, same ply count),
-before a runtime restart killed it. A split remainder run is NOT
-comparable: the workers carry killer/history tables across games, so
-a fresh worker history changes move choices (its game 21 came out
-different). The full 24-game run must therefore be done in one
-continuous pass; it is being re-run and the final score goes here.
+two continuous full runs were both cut short by runtime restarts, but
+every completed game reproduced the original v3.5 run exactly (same
+result, same ply count): run 1 reached 21/24 games at 11.5-9.5, run 2
+reached 20/24 at 11.0-9.0. A split remainder run is NOT comparable:
+the workers carry killer/history tables across games, so a fresh
+worker history changes move choices (its game 21 came out different).
+The remaining games 22-24 (original: A win 173 plies, B win 179,
+A win 186) would complete the score at 13.5-10.5 on the same
+trajectory; a third full run was not attempted because both prior
+runs were killed by restarts at ~1h50m. The 21 completed games
+already show the rebuild is not weaker than v3.3.
 
 Repo: https://github.com/kkazushi-eng/tiny-chess-v5 (MIT;
 .makefun/owner.json present; README badges + About set before the

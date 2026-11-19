@@ -5,10 +5,10 @@
 # tiny-chess-01 entry
 
 A chess engine in a single `main.py` that fits the competition's 4,096-byte
-entrypoint cap (this entry: 4,092 bytes). The readable engine source is
-lzma-compressed into a payload string inside `main.py` and unpacked at
-startup by a small loader; the engine itself is Python standard library
-only and reads no other file.
+entrypoint cap (this entry: 4,059 bytes). The readable engine source lives
+in `engine_source.py`; it is lzma-compressed into a payload string inside
+`main.py` and unpacked at startup by a small loader. The engine is Python
+standard library only and reads no other file.
 
 ## The engine
 
@@ -18,15 +18,15 @@ Written from scratch:
   evaluation and Zobrist hashing (repetition and fifty-move handling)
 - Negamax alpha-beta search with PVS, a 262,144-entry transposition
   table, null-move pruning, futility pruning and check extensions
-- Late-move reductions kept deliberately gentle: reductions start one
-  move later than the previous build and never add a second extra ply
-  at high move counts (the deeper cut measurably hurt the attacking
-  side in head-to-head play)
+- Late-move reductions kept deliberately gentle: reductions start at the
+  fifth quiet move and add at most one extra ply, even at high move
+  counts (the deeper cut measurably hurt the attacking side in
+  head-to-head play)
 - Move ordering by transposition-table move, MVV-LVA captures, killers
   and a history heuristic
 - Quiescence search over captures and promotions (all evasions when in
   check) with delta pruning
-- Tapered evaluation for the king and for pawns (endgame pawn table
+- Tapered evaluation for the king and for pawns (the endgame pawn table
   rewards advanced pawns) plus a bishop-pair term, interpolated by
   remaining material
 - Deterministic fixed node budget of 84,000 nodes per move (no
